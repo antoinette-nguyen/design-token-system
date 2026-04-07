@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="160" viewBox="0 0 800 160">
+  <rect width="800" height="160" fill="#f9f9f9" rx="12"/>
+
+  <text x="24" y="24" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="700" fill="#a3a3a3" letter-spacing="1.5">BORDER RADIUS</text>
+  <line x1="24" y1="32" x2="776" y2="32" stroke="#e5e5e5" stroke-width="1"/>
+
+  <!-- none -->
+  <rect x="36"  y="50" width="72" height="72" rx="0"    fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="72"  y="140" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="600" fill="#7c3aed">none</text>
+  <text x="72"  y="152" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="9"  fill="#a3a3a3">0</text>
+
+  <!-- sm -->
+  <rect x="132" y="50" width="72" height="72" rx="4"    fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="168" y="140" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="600" fill="#7c3aed">sm</text>
+  <text x="168" y="152" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="9"  fill="#a3a3a3">4px</text>
+
+  <!-- md -->
+  <rect x="228" y="50" width="72" height="72" rx="8"    fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="264" y="140" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="600" fill="#7c3aed">md</text>
+  <text x="264" y="152" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="9"  fill="#a3a3a3">8px</text>
+
+  <!-- lg -->
+  <rect x="324" y="50" width="72" height="72" rx="12"   fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="360" y="140" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="600" fill="#7c3aed">lg</text>
+  <text x="360" y="152" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="9"  fill="#a3a3a3">12px</text>
+
+  <!-- xl -->
+  <rect x="420" y="50" width="72" height="72" rx="16"   fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="456" y="140" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="600" fill="#7c3aed">xl</text>
+  <text x="456" y="152" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="9"  fill="#a3a3a3">16px</text>
+
+  <!-- 2xl -->
+  <rect x="516" y="50" width="72" height="72" rx="24"   fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="552" y="140" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="600" fill="#7c3aed">2xl</text>
+  <text x="552" y="152" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="9"  fill="#a3a3a3">24px</text>
+
+  <!-- full -->
+  <rect x="612" y="50" width="72" height="72" rx="9999" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="648" y="140" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="600" fill="#7c3aed">full</text>
+  <text x="648" y="152" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="9"  fill="#a3a3a3">9999px</text>
+</svg>
