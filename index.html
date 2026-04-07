@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Design Token System — Antoinette Nguyen</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="tokens.css" />
+    <style>
+      /* ── Base ── */
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        font-family: var(--font-sans);
+        background: var(--color-bg);
+        color: var(--color-text);
+        line-height: var(--leading-normal);
+      }
+
+      /* ── Layout ── */
+      .page {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: var(--space-16) var(--space-6);
+      }
+
+      /* ── Header ── */
+      .page-header {
+        margin-bottom: var(--space-16);
+        padding-bottom: var(--space-8);
+        border-bottom: 1px solid var(--color-border);
+      }
+
+      .page-header__eyebrow {
+        font-size: var(--text-xs);
+        font-weight: var(--font-weight-bold);
+        letter-spacing: var(--tracking-wider);
+        text-transform: uppercase;
+        color: var(--color-text-muted);
+        margin-bottom: var(--space-3);
+      }
+
+      .page-header h1 {
+        font-size: var(--text-4xl);
+        font-weight: var(--font-weight-extrabold);
+        letter-spacing: var(--tracking-tight);
+        line-height: var(--leading-tight);
+        margin-bottom: var(--space-4);
+      }
+
+      .page-header p {
+        font-size: var(--text-lg);
+        color: var(--color-text-muted);
+        max-width: 54ch;
+      }
+
+      /* ── Sections ── */
+      .section {
+        margin-bottom: var(--space-16);
+      }
+
+      .section__title {
+        font-size: var(--text-xs);
+        font-weight: var(--font-weight-bold);
+        letter-spacing: var(--tracking-wider);
+        text-transform: uppercase;
+        color: var(--color-text-muted);
+        margin-bottom: var(--space-6);
+        padding-bottom: var(--space-3);
+        border-bottom: 1px solid var(--color-border);
+      }
+
+      /* ── Color swatches ── */
+      .swatch-row {
+        display: flex;
+        gap: var(--space-2);
+        margin-bottom: var(--space-4);
+        align-items: flex-end;
+      }
+
+      .swatch-row__label {
+        font-size: var(--text-xs);
+        font-weight: var(--font-weight-semibold);
+        color: var(--color-text-muted);
+        width: 80px;
+        flex-shrink: 0;
+        padding-bottom: var(--space-2);
+      }
+
+      .swatch {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-2);
+        flex: 1;
+        cursor: pointer;
+      }
+
+      .swatch__block {
+        width: 100%;
+        height: 48px;
+        border-radius: var(--radius-md);
+        border: 1px solid rgba(0,0,0,0.06);
+        transition: transform var(--duration-fast) var(--ease-out);
+      }
+
+      .swatch:hover .swatch__block {
+        transform: translateY(-2px);
+      }
+
+      .swatch__name {
+        font-size: 10px;
+        color: var(--color-text-muted);
+        text-align: center;
+      }
+
+      /* Semantic colors */
+      .semantic-swatches {
+        display: flex;
+        gap: var(--space-3);
+        flex-wrap: wrap;
+      }
+
+      .semantic-swatch {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+        min-width: 120px;
+      }
+
+      .semantic-swatch__block {
+        height: 56px;
+        border-radius: var(--radius-lg);
+        border: 1px solid rgba(0,0,0,0.06);
+      }
+
+      .semantic-swatch__label {
+        font-size: var(--text-xs);
+        font-weight: var(--font-weight-semibold);
+        color: var(--color-text);
+      }
+
+      .semantic-swatch__var {
+        font-size: 10px;
+        color: var(--color-text-muted);
+        font-family: var(--font-mono);
+      }
+
+      /* ── Type scale ── */
+      .type-scale {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-4);
+      }
+
+      .type-row {
+        display: grid;
+        grid-template-columns: 100px 1fr;
+        align-items: baseline;
+        gap: var(--space-4);
+        padding-bottom: var(--space-4);
+        border-bottom: 1px solid var(--color-border);
+      }
+
+      .type-row__meta {
+        font-size: 10px;
+        font-family: var(--font-mono);
+        color: var(--color-text-muted);
+        line-height: 1.4;
+      }
+
+      .type-row__sample {
+        font-weight: var(--font-weight-bold);
+        letter-spacing: var(--tracking-tight);
+        line-height: var(--leading-tight);
+        color: var(--color-text);
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      /* ── Spacing ── */
+      .spacing-list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+      }
+
+      .spacing-row {
+        display: grid;
+        grid-template-columns: 80px auto 1fr;
+        align-items: center;
+        gap: var(--space-4);
+      }
+
+      .spacing-row__label {
+        font-size: var(--text-xs);
+        font-family: var(--font-mono);
+        color: var(--color-text-muted);
+      }
+
+      .spacing-row__value {
+        font-size: var(--text-xs);
+        color: var(--color-text-muted);
+        width: 36px;
+      }
+
+      .spacing-row__bar-wrap {
+        height: 20px;
+        display: flex;
+        align-items: center;
+      }
+
+      .spacing-row__bar {
+        height: 12px;
+        background: var(--color-accent);
+        border-radius: var(--radius-sm);
+        opacity: 0.7;
+      }
+
+      /* ── Radius ── */
+      .radius-grid {
+        display: flex;
+        gap: var(--space-4);
+        flex-wrap: wrap;
+      }
+
+      .radius-item {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+        align-items: center;
+      }
+
+      .radius-item__box {
+        width: 64px;
+        height: 64px;
+        background: var(--color-accent);
+        opacity: 0.15;
+        border: 2px solid var(--color-accent);
+      }
+
+      .radius-item__label {
+        font-size: var(--text-xs);
+        font-family: var(--font-mono);
+        color: var(--color-text-muted);
+        text-align: center;
+      }
+
+      /* ── Shadows ── */
+      .shadow-grid {
+        display: flex;
+        gap: var(--space-6);
+        flex-wrap: wrap;
+      }
+
+      .shadow-item {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+        align-items: center;
+      }
+
+      .shadow-item__box {
+        width: 80px;
+        height: 80px;
+        background: var(--color-surface);
+        border-radius: var(--radius-lg);
+      }
+
+      .shadow-item__label {
+        font-size: var(--text-xs);
+        font-family: var(--font-mono);
+        color: var(--color-text-muted);
+      }
+
+      /* ── Motion ── */
+      .motion-grid {
+        display: flex;
+        gap: var(--space-4);
+        flex-wrap: wrap;
+      }
+
+      .motion-item {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+        align-items: center;
+        cursor: pointer;
+      }
+
+      .motion-item__dot {
+        width: 16px;
+        height: 16px;
+        background: var(--color-accent);
+        border-radius: var(--radius-full);
+        transition-property: transform;
+        transition-timing-function: var(--ease-default);
+      }
+
+      .motion-item:hover .motion-item__dot {
+        transform: translateX(60px);
+      }
+
+      .motion-item__label {
+        font-size: var(--text-xs);
+        font-family: var(--font-mono);
+        color: var(--color-text-muted);
+        text-align: center;
+      }
+
+      /* copied toast */
+      .toast {
+        position: fixed;
+        bottom: var(--space-6);
+        left: 50%;
+        transform: translateX(-50%) translateY(8px);
+        background: var(--color-text);
+        color: #fff;
+        font-size: var(--text-sm);
+        font-weight: var(--font-weight-medium);
+        padding: var(--space-3) var(--space-6);
+        border-radius: var(--radius-full);
+        opacity: 0;
+        transition: opacity var(--duration-fast), transform var(--duration-fast);
+        pointer-events: none;
+      }
+
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+
+      <!-- Header -->
+      <header class="page-header">
+        <p class="page-header__eyebrow">antoinette-nguyen / design-token-system</p>
+        <h1>Design Tokens</h1>
+        <p>A single source of truth for color, typography, spacing, shadows, and motion. Click any color swatch to copy the CSS variable name.</p>
+      </header>
+
+      <!-- Colors: Neutral -->
+      <section class="section">
+        <h2 class="section__title">Color — Neutral</h2>
+        <div class="swatch-row">
+          <span class="swatch-row__label">Neutral</span>
+          <div class="swatch" onclick="copy('--color-neutral-50')">
+            <div class="swatch__block" style="background:var(--color-neutral-50);"></div>
+            <span class="swatch__name">50</span>
+          </div>
+          <div class="swatch" onclick="copy('--color-neutral-100')">
+            <div class="swatch__block" style="background:var(--color-neutral-100);"></div>
+            <span class="swatch__name">100</span>
+          </div>
+          <div class="swatch" onclick="copy('--color-neutral-200')">
+            <div class="swatch__block" style="background:var(--color-neutral-200);"></div>
+            <span class="swatch__name">200</span>
+          </div>
+          <div class="swatch" onclick="copy('--color-neutral-300')">
+            <div class="swatch__block" style="background:var(--color-neutral-300);"></div>
+            <span class="swatch__name">300</span>
+          </div>
+          <div class="swatch" onclick="copy('--color-neutral-400')">
+            <div class="swatch__block" style="background:var(--color-neutral-400);"></div>
+            <span class="swatch__name">400</span>
+          </div>
+          <div class="swatch" onclick="copy('--color-neutral-500')">
+            <div class="swatch__block" style="background:var(--color-neutral-500);"></div>
+            <span class="swatch__name">500</span>
+          </div>
+          <div class="swatch" onclick="copy('--color-neutral-600')">
+            <div class="swatch__block" style="background:var(--color-neutral-600);"></div>
+            <span class="swatch__name">600</span>
+          </div>
+          <div class="swatch" onclick="copy('--color-neutral-700')">
+            <div class="swatch__block" style="background:var(--color-neutral-700);"></div>
+            <span class="swatch__name">700</span>
+          </div>
+          <div class="swatch" onclick="copy('--color-neutral-800')">
+            <div class="swatch__block" style="background:var(--color-neutral-800);"></div>
+            <span class="swatch__name">800</span>
+          </div>
+          <div class="swatch" onclick="copy('--color-neutral-900')">
+            <div class="swatch__block" style="background:var(--color-neutral-900);"></div>
+            <span class="swatch__name">900</span>
+          </div>
+        </div>
+
+        <div class="swatch-row">
+          <span class="swatch-row__label">Accent</span>
+          <div class="swatch" onclick="copy('--color-accent-50')">
+            <div class="swatch__block" style="background:var(--color-accent-50);"></div>
+            <span class="swatch__name">50</span>
+          </div>
+          <div class="swatch" onclick="copy('--color-accent-100')">
+            <div class="swatch__block" style="background:var(--color-accent-100);"></div>
+            <span class="swatch__name">100</span>
+          </div>
+          <div class="swatch" onclick="copy('--color-accent-200')">
+            <div class="swatch__block" style="background:var(--color-accent-200);"></div>
+            <span class="swatch__name">200</span>
+          </div>
+          <div class="swatch" onclick="copy('--color-accent-300')">
+            <div class="swatch__block" style="background:var(--color-accent-300);"></div>
+            <span class="swatch__name">300</span>
+          </div>
+          <div class="swatch" onclick="copy('--color-accent-400')">
+            <div class="swatch__block" style="background:var(--color-accent-400);"></div>
+            <span class="swatch__name">400</span>
+          </div>
+          <div class="swatch" onclick="copy('--color-accent-500')">
+            <div class="swatch__block" style="background:var(--color-accent-500);"></div>
+            <span class="swatch__name">500</span>
+          </div>
+          <div class="swatch" onclick="copy('--color-accent-600')">
+            <div class="swatch__block" style="background:var(--color-accent-600);"></div>
+            <span class="swatch__name">600</span>
+          </div>
+          <div class="swatch" onclick="copy('--color-accent-700')">
+            <div class="swatch__block" style="background:var(--color-accent-700);"></div>
+            <span class="swatch__name">700</span>
+          </div>
+          <div class="swatch" onclick="copy('--color-accent-800')">
+            <div class="swatch__block" style="background:var(--color-accent-800);"></div>
+            <span class="swatch__name">800</span>
+          </div>
+          <div class="swatch" onclick="copy('--color-accent-900')">
+            <div class="swatch__block" style="background:var(--color-accent-900);"></div>
+            <span class="swatch__name">900</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Colors: Semantic -->
+      <section class="section">
+        <h2 class="section__title">Color — Semantic</h2>
+        <div class="semantic-swatches">
+          <div class="semantic-swatch">
+            <div class="semantic-swatch__block" style="background:var(--color-bg); border:1px solid var(--color-border);"></div>
+            <span class="semantic-swatch__label">Background</span>
+            <span class="semantic-swatch__var">--color-bg</span>
+          </div>
+          <div class="semantic-swatch">
+            <div class="semantic-swatch__block" style="background:var(--color-surface); border:1px solid var(--color-border);"></div>
+            <span class="semantic-swatch__label">Surface</span>
+            <span class="semantic-swatch__var">--color-surface</span>
+          </div>
+          <div class="semantic-swatch">
+            <div class="semantic-swatch__block" style="background:var(--color-text);"></div>
+            <span class="semantic-swatch__label">Text</span>
+            <span class="semantic-swatch__var">--color-text</span>
+          </div>
+          <div class="semantic-swatch">
+            <div class="semantic-swatch__block" style="background:var(--color-text-muted);"></div>
+            <span class="semantic-swatch__label">Text muted</span>
+            <span class="semantic-swatch__var">--color-text-muted</span>
+          </div>
+          <div class="semantic-swatch">
+            <div class="semantic-swatch__block" style="background:var(--color-accent);"></div>
+            <span class="semantic-swatch__label">Accent</span>
+            <span class="semantic-swatch__var">--color-accent</span>
+          </div>
+          <div class="semantic-swatch">
+            <div class="semantic-swatch__block" style="background:var(--color-success);"></div>
+            <span class="semantic-swatch__label">Success</span>
+            <span class="semantic-swatch__var">--color-success</span>
+          </div>
+          <div class="semantic-swatch">
+            <div class="semantic-swatch__block" style="background:var(--color-warning);"></div>
+            <span class="semantic-swatch__label">Warning</span>
+            <span class="semantic-swatch__var">--color-warning</span>
+          </div>
+          <div class="semantic-swatch">
+            <div class="semantic-swatch__block" style="background:var(--color-error);"></div>
+            <span class="semantic-swatch__label">Error</span>
+            <span class="semantic-swatch__var">--color-error</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Type scale -->
+      <section class="section">
+        <h2 class="section__title">Typography — Type Scale</h2>
+        <div class="type-scale">
+          <div class="type-row">
+            <div class="type-row__meta">--text-5xl</div>
+            <div class="type-row__sample" style="font-size:var(--text-5xl);">The quick brown fox</div>
+          </div>
+          <div class="type-row">
+            <div class="type-row__meta">--text-4xl</div>
+            <div class="type-row__sample" style="font-size:var(--text-4xl);">The quick brown fox</div>
+          </div>
+          <div class="type-row">
+            <div class="type-row__meta">--text-3xl</div>
+            <div class="type-row__sample" style="font-size:var(--text-3xl);">The quick brown fox</div>
+          </div>
+          <div class="type-row">
+            <div class="type-row__meta">--text-2xl</div>
+            <div class="type-row__sample" style="font-size:var(--text-2xl);">The quick brown fox jumps</div>
+          </div>
+          <div class="type-row">
+            <div class="type-row__meta">--text-xl</div>
+            <div class="type-row__sample" style="font-size:var(--text-xl);">The quick brown fox jumps over the lazy dog</div>
+          </div>
+          <div class="type-row">
+            <div class="type-row__meta">--text-lg</div>
+            <div class="type-row__sample" style="font-size:var(--text-lg);">The quick brown fox jumps over the lazy dog</div>
+          </div>
+          <div class="type-row">
+            <div class="type-row__meta">--text-base</div>
+            <div class="type-row__sample" style="font-size:var(--text-base);">The quick brown fox jumps over the lazy dog</div>
+          </div>
+          <div class="type-row">
+            <div class="type-row__meta">--text-sm</div>
+            <div class="type-row__sample" style="font-size:var(--text-sm);">The quick brown fox jumps over the lazy dog</div>
+          </div>
+          <div class="type-row">
+            <div class="type-row__meta">--text-xs</div>
+            <div class="type-row__sample" style="font-size:var(--text-xs);">The quick brown fox jumps over the lazy dog</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Spacing -->
+      <section class="section">
+        <h2 class="section__title">Spacing</h2>
+        <div class="spacing-list">
+          <div class="spacing-row"><span class="spacing-row__label">--space-1</span><span class="spacing-row__value">4px</span><div class="spacing-row__bar-wrap"><div class="spacing-row__bar" style="width:4px;"></div></div></div>
+          <div class="spacing-row"><span class="spacing-row__label">--space-2</span><span class="spacing-row__value">8px</span><div class="spacing-row__bar-wrap"><div class="spacing-row__bar" style="width:8px;"></div></div></div>
+          <div class="spacing-row"><span class="spacing-row__label">--space-3</span><span class="spacing-row__value">12px</span><div class="spacing-row__bar-wrap"><div class="spacing-row__bar" style="width:12px;"></div></div></div>
+          <div class="spacing-row"><span class="spacing-row__label">--space-4</span><span class="spacing-row__value">16px</span><div class="spacing-row__bar-wrap"><div class="spacing-row__bar" style="width:16px;"></div></div></div>
+          <div class="spacing-row"><span class="spacing-row__label">--space-5</span><span class="spacing-row__value">20px</span><div class="spacing-row__bar-wrap"><div class="spacing-row__bar" style="width:20px;"></div></div></div>
+          <div class="spacing-row"><span class="spacing-row__label">--space-6</span><span class="spacing-row__value">24px</span><div class="spacing-row__bar-wrap"><div class="spacing-row__bar" style="width:24px;"></div></div></div>
+          <div class="spacing-row"><span class="spacing-row__label">--space-8</span><span class="spacing-row__value">32px</span><div class="spacing-row__bar-wrap"><div class="spacing-row__bar" style="width:32px;"></div></div></div>
+          <div class="spacing-row"><span class="spacing-row__label">--space-10</span><span class="spacing-row__value">40px</span><div class="spacing-row__bar-wrap"><div class="spacing-row__bar" style="width:40px;"></div></div></div>
+          <div class="spacing-row"><span class="spacing-row__label">--space-12</span><span class="spacing-row__value">48px</span><div class="spacing-row__bar-wrap"><div class="spacing-row__bar" style="width:48px;"></div></div></div>
+          <div class="spacing-row"><span class="spacing-row__label">--space-16</span><span class="spacing-row__value">64px</span><div class="spacing-row__bar-wrap"><div class="spacing-row__bar" style="width:64px;"></div></div></div>
+          <div class="spacing-row"><span class="spacing-row__label">--space-24</span><span class="spacing-row__value">96px</span><div class="spacing-row__bar-wrap"><div class="spacing-row__bar" style="width:96px;"></div></div></div>
+        </div>
+      </section>
+
+      <!-- Border radius -->
+      <section class="section">
+        <h2 class="section__title">Border Radius</h2>
+        <div class="radius-grid">
+          <div class="radius-item">
+            <div class="radius-item__box" style="border-radius:var(--radius-none);"></div>
+            <span class="radius-item__label">--radius-none<br/>0</span>
+          </div>
+          <div class="radius-item">
+            <div class="radius-item__box" style="border-radius:var(--radius-sm);"></div>
+            <span class="radius-item__label">--radius-sm<br/>4px</span>
+          </div>
+          <div class="radius-item">
+            <div class="radius-item__box" style="border-radius:var(--radius-md);"></div>
+            <span class="radius-item__label">--radius-md<br/>8px</span>
+          </div>
+          <div class="radius-item">
+            <div class="radius-item__box" style="border-radius:var(--radius-lg);"></div>
+            <span class="radius-item__label">--radius-lg<br/>12px</span>
+          </div>
+          <div class="radius-item">
+            <div class="radius-item__box" style="border-radius:var(--radius-xl);"></div>
+            <span class="radius-item__label">--radius-xl<br/>16px</span>
+          </div>
+          <div class="radius-item">
+            <div class="radius-item__box" style="border-radius:var(--radius-2xl);"></div>
+            <span class="radius-item__label">--radius-2xl<br/>24px</span>
+          </div>
+          <div class="radius-item">
+            <div class="radius-item__box" style="border-radius:var(--radius-full);"></div>
+            <span class="radius-item__label">--radius-full<br/>9999px</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Shadows -->
+      <section class="section">
+        <h2 class="section__title">Shadows</h2>
+        <div class="shadow-grid">
+          <div class="shadow-item">
+            <div class="shadow-item__box" style="box-shadow:var(--shadow-sm);"></div>
+            <span class="shadow-item__label">--shadow-sm</span>
+          </div>
+          <div class="shadow-item">
+            <div class="shadow-item__box" style="box-shadow:var(--shadow-md);"></div>
+            <span class="shadow-item__label">--shadow-md</span>
+          </div>
+          <div class="shadow-item">
+            <div class="shadow-item__box" style="box-shadow:var(--shadow-lg);"></div>
+            <span class="shadow-item__label">--shadow-lg</span>
+          </div>
+          <div class="shadow-item">
+            <div class="shadow-item__box" style="box-shadow:var(--shadow-xl);"></div>
+            <span class="shadow-item__label">--shadow-xl</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Motion -->
+      <section class="section">
+        <h2 class="section__title">Motion — hover each dot to preview duration</h2>
+        <div class="motion-grid">
+          <div class="motion-item" style="--dur:var(--duration-fast);">
+            <div class="motion-item__dot" style="transition-duration:var(--duration-fast);"></div>
+            <span class="motion-item__label">--duration-fast<br/>150ms</span>
+          </div>
+          <div class="motion-item">
+            <div class="motion-item__dot" style="transition-duration:var(--duration-base);"></div>
+            <span class="motion-item__label">--duration-base<br/>250ms</span>
+          </div>
+          <div class="motion-item">
+            <div class="motion-item__dot" style="transition-duration:var(--duration-slow);"></div>
+            <span class="motion-item__label">--duration-slow<br/>400ms</span>
+          </div>
+          <div class="motion-item">
+            <div class="motion-item__dot" style="transition-duration:var(--duration-slower);"></div>
+            <span class="motion-item__label">--duration-slower<br/>600ms</span>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">Copied!</div>
+
+    <script>
+      function copy(varName) {
+        navigator.clipboard.writeText(`var(${varName})`);
+        const toast = document.getElementById('toast');
+        toast.textContent = `Copied: var(${varName})`;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 1800);
+      }
+    </script>
+
+  </body>
+</html>
